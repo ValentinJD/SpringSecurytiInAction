@@ -9,7 +9,7 @@ import ru.auth.server.entities.AuthUser.AuthUserBuilder;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-08-28T21:48:20+0400",
+    date = "2024-08-28T21:51:42+0400",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 17.0.12 (Amazon.com Inc.)"
 )
 @Component

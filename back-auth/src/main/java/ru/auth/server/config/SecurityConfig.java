@@ -89,31 +89,14 @@ public class SecurityConfig {
     @Bean
     public AuthorizationServerSettings authorizationServerSettings() {
         return AuthorizationServerSettings.builder()
-                .authorizationEndpoint("/oauth2/authorize")
-                .tokenEndpoint("/oauth2/token")
-                .jwkSetEndpoint("/oauth2/jwks")
-                .tokenRevocationEndpoint("/oauth2/revoke")
-                .tokenIntrospectionEndpoint("/oauth2/introspect")
-                .oidcClientRegistrationEndpoint("/connect/register")
-                .oidcUserInfoEndpoint("/userinfo")
-                .build();
-    }
-
-
-//    @Bean
-//    public ProviderSettings providerSettings() {
-//        return ProviderSettings.builder()
-//                .issuer("http://backend-auth:8081")
-//                .build();
-//    }
-//    public static ProviderSettings.Builder builder() {
-//        return new ProviderSettings.Builder()
 //                .authorizationEndpoint("/oauth2/authorize")
 //                .tokenEndpoint("/oauth2/token")
 //                .jwkSetEndpoint("/oauth2/jwks")
 //                .tokenRevocationEndpoint("/oauth2/revoke")
 //                .tokenIntrospectionEndpoint("/oauth2/introspect")
 //                .oidcClientRegistrationEndpoint("/connect/register")
-//                .oidcUserInfoEndpoint("/userinfo");
-//    }
+//                .oidcUserInfoEndpoint("/userinfo")
+                .build();
+    }
+
 }
