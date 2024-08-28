@@ -1,16 +1,12 @@
 package ru.auth.server.config;
 
-import com.nimbusds.jose.jwk.JWKSet;
-import com.nimbusds.jose.jwk.RSAKey;
-import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
-import com.nimbusds.jose.jwk.source.JWKSource;
-import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+//import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
+//import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -29,21 +25,15 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
 
-@Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
     @Bean
     @Order(1)
-    public SecurityFilterChain asFilterChain(HttpSecurity http) throws Exception {
-        OAuth2AuthorizationServerConfiguration
-                .applyDefaultSecurity(http);
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
 
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
                 .oidc(Customizer.withDefaults());
@@ -97,22 +87,33 @@ public class SecurityConfig {
     }
 
     @Bean
-    public JWKSource<SecurityContext> jwkSource() throws NoSuchAlgorithmException {
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-        keyPairGenerator.initialize(2048);
-        KeyPair keyPair = keyPairGenerator.generateKeyPair();
-        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-        RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
-        RSAKey rsaKey = new RSAKey.Builder(publicKey)
-                .privateKey(privateKey)
-                .keyID(UUID.randomUUID().toString())
+    public AuthorizationServerSettings authorizationServerSettings() {
+        return AuthorizationServerSettings.builder()
+                .authorizationEndpoint("/oauth2/authorize")
+                .tokenEndpoint("/oauth2/token")
+                .jwkSetEndpoint("/oauth2/jwks")
+                .tokenRevocationEndpoint("/oauth2/revoke")
+                .tokenIntrospectionEndpoint("/oauth2/introspect")
+                .oidcClientRegistrationEndpoint("/connect/register")
+                .oidcUserInfoEndpoint("/userinfo")
                 .build();
-        JWKSet jwkSet = new JWKSet(rsaKey);
-        return new ImmutableJWKSet<>(jwkSet);
     }
 
-    @Bean
-    public AuthorizationServerSettings authorizationServerSettings() {
-        return AuthorizationServerSettings.builder().build();
-    }
+
+//    @Bean
+//    public ProviderSettings providerSettings() {
+//        return ProviderSettings.builder()
+//                .issuer("http://backend-auth:8081")
+//                .build();
+//    }
+//    public static ProviderSettings.Builder builder() {
+//        return new ProviderSettings.Builder()
+//                .authorizationEndpoint("/oauth2/authorize")
+//                .tokenEndpoint("/oauth2/token")
+//                .jwkSetEndpoint("/oauth2/jwks")
+//                .tokenRevocationEndpoint("/oauth2/revoke")
+//                .tokenIntrospectionEndpoint("/oauth2/introspect")
+//                .oidcClientRegistrationEndpoint("/connect/register")
+//                .oidcUserInfoEndpoint("/userinfo");
+//    }
 }
