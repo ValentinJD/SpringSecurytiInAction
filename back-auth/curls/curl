@@ -1,0 +1,6 @@
+curl http://localhost:8081/hello
+curl -u user:0e7a0a1d-d902-4e46-8b5e-1ef724bed8ee http://localhost:8081/hello
+
+echo -n user:0e7a0a1d-d902-4e46-8b5e-1ef724bed8ee | base64
+
+curl -H "Authorization: Basic dXNlcjowZTdhMGExZC1kOTAyLTRlNDYtOGI1ZS0xZWY3MjRiZWQ4ZWU=" localhost:8081/hello
