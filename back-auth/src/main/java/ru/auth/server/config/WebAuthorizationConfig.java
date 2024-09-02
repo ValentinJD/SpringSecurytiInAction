@@ -7,11 +7,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-public class ProjectConfig {
+public class WebAuthorizationConfig {
 
     private final CustomAuthenticationProvider authenticationProvider;
 
-    public ProjectConfig(CustomAuthenticationProvider authenticationProvider) {
+    public WebAuthorizationConfig(CustomAuthenticationProvider authenticationProvider) {
         this.authenticationProvider = authenticationProvider;
     }
 

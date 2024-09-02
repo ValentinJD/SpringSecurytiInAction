@@ -11,6 +11,7 @@ import java.util.Arrays;
 
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         // authentication logic here

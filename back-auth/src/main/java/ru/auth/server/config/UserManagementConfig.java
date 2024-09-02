@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
-public class Configurations {
+public class UserManagementConfig {
     @Bean
     UserDetailsService userDetailsService() {
         var user = User.withUsername("john")
