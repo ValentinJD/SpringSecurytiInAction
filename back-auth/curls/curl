@@ -11,3 +11,5 @@ curl -k --http1.1 https://localhost:8081/hello
 
 curl -k -u john:12345 https://localhost:8081/hello
 Hello!
+
+curl -u john:12345 http://localhost:8081/hello
