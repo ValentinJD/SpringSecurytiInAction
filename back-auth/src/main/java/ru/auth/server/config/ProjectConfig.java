@@ -11,8 +11,13 @@ public class ProjectConfig {
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         // Базовая авторизация
-        http.httpBasic(Customizer.withDefaults());
-        // Разрешение на все запросы, кроме авторизации и регистрации
+        http.authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
+                authorizationManagerRequestMatcherRegistry.requestMatchers(
+                        "/login",
+                        "/registration",
+                        "/registration/**"
+                ).authenticated());
+        // Разрешение на все запросы кроме выше указанных
         http.authorizeHttpRequests(
                 c -> c.anyRequest().permitAll()
         );
