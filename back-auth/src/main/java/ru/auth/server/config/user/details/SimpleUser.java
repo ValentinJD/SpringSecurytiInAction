@@ -8,8 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-import static org.apache.logging.log4j.util.Base64Util.encode;
-
 public class SimpleUser implements UserDetails {
     private final String username;
     private final String password;
