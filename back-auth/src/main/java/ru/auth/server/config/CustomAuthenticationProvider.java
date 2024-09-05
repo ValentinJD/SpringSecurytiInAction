@@ -5,6 +5,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -22,7 +23,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             return new UsernamePasswordAuthenticationToken(
                     username,
                     password,
-                    Arrays.asList());
+                    Arrays.asList(
+                            new SimpleGrantedAuthority("read")
+                    ));
         } else {
             throw new AuthenticationCredentialsNotFoundException("Error!");
         }
@@ -31,7 +34,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Override
     public boolean supports(Class<?> authenticationType) {
         // type of the Authentication implementation here
-        return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authenticationType);
+        return UsernamePasswordAuthenticationToken.class.
+                isAssignableFrom(authenticationType);
     }
 
 }
