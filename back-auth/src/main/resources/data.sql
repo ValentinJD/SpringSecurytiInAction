@@ -1,0 +1,7 @@
+INSERT INTO PUBLIC.AUTHORITIES (id,username, authority)
+VALUES (1,'john', 'write');
+
+INSERT INTO PUBLIC.USERS (_ROWID_)
+VALUES (1);
+
+SELECT * FROM PUBLIC.USERS;

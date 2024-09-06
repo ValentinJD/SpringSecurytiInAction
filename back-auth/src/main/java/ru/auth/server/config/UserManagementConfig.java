@@ -2,26 +2,19 @@ package ru.auth.server.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ru.auth.server.config.user.details.InMemoryUserDetailsService;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 
-import java.util.Collections;
-import java.util.List;
+import javax.sql.DataSource;
 
 @Configuration
 public class UserManagementConfig {
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails u = new User("john", "12345", Collections.singletonList(new SimpleGrantedAuthority ("read")));
-        List<UserDetails> users = List.of(u);
-        return new InMemoryUserDetailsService(users);
+    public UserDetailsService userDetailsService(DataSource dataSource) {
+        return new JdbcUserDetailsManager(dataSource);
     }
 
     @Bean
