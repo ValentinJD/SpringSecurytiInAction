@@ -1,7 +1,5 @@
-INSERT INTO PUBLIC.AUTHORITIES (id,username, authority)
-VALUES (1,'john', 'write');
-
-INSERT INTO PUBLIC.USERS (_ROWID_)
-VALUES (1);
-
-SELECT * FROM PUBLIC.USERS;
+INSERT INTO countries (id, name) VALUES (1, 'USA');
+INSERT INTO countries (id, name) VALUES (2, 'France');
+INSERT INTO countries (id, name) VALUES (3, 'Brazil');
+INSERT INTO countries (id, name) VALUES (4, 'Italy');
+INSERT INTO countries (id, name) VALUES (5, 'Canada');
