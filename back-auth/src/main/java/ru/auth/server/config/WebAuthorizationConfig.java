@@ -2,6 +2,7 @@ package ru.auth.server.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -11,9 +12,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class WebAuthorizationConfig {
 
-    private final CustomAuthenticationProvider authenticationProvider;
+    private final AuthenticationProvider authenticationProvider;
 
-    public WebAuthorizationConfig(CustomAuthenticationProvider authenticationProvider) {
+    public WebAuthorizationConfig(AuthenticationProvider authenticationProvider) {
         this.authenticationProvider = authenticationProvider;
     }
 
@@ -22,11 +23,16 @@ public class WebAuthorizationConfig {
         http.authenticationProvider(authenticationProvider);
         http.authorizeHttpRequests(
                 c -> c.requestMatchers("/console/**").permitAll()
+                        .anyRequest().authenticated()
         );
-        http.formLogin(Customizer.withDefaults());
+
+//        http.formLogin(Customizer.withDefaults());
         http.csrf(AbstractHttpConfigurer::disable);
-        http.headers(headers -> headers.frameOptions(
-                HeadersConfigurer.FrameOptionsConfig::disable).disable());
+        http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
+        http.httpBasic(Customizer.withDefaults());
+//        http.authorizeHttpRequests(
+//                c -> c.anyRequest().authenticated()
+//        );
         return http.build();
     }
 }

@@ -2,4 +2,4 @@
 #  port: 8081
 logging:
   level:
-    ROOT: DEBUG
+    ROOT: INFO
