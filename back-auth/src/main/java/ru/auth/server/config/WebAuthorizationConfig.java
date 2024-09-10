@@ -21,18 +21,14 @@ public class WebAuthorizationConfig {
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.authenticationProvider(authenticationProvider);
+        http.formLogin(Customizer.withDefaults());
         http.authorizeHttpRequests(
                 c -> c.requestMatchers("/console/**").permitAll()
                         .anyRequest().authenticated()
         );
-
-//        http.formLogin(Customizer.withDefaults());
         http.csrf(AbstractHttpConfigurer::disable);
         http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
         http.httpBasic(Customizer.withDefaults());
-//        http.authorizeHttpRequests(
-//                c -> c.anyRequest().authenticated()
-//        );
         return http.build();
     }
 }
