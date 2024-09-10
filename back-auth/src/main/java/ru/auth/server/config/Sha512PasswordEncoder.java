@@ -1,10 +1,12 @@
 package ru.auth.server.config;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+@Component
 public class Sha512PasswordEncoder implements PasswordEncoder {
 
     @Override

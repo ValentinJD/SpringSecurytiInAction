@@ -23,7 +23,17 @@ public class UserManagementConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SCryptPasswordEncoder scryptPasswordEncoder() {
+        return new SCryptPasswordEncoder(16384,8,1,32, 64);
+    }
+
+    @Bean
+    public DelegatingPasswordEncoder passwordEncoder() {
         Map<String, PasswordEncoder> encoders = new HashMap<>();
         encoders.put("noop", NoOpPasswordEncoder.getInstance());
         encoders.put("bcrypt", new BCryptPasswordEncoder());
