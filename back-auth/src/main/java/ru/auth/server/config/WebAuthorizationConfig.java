@@ -24,7 +24,8 @@ public class WebAuthorizationConfig {
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.authenticationProvider(authenticationProvider);
-        http.addFilterBefore(new RequestValidationFilter(), BasicAuthenticationFilter.class)
+        http
+                .addFilterBefore(new RequestValidationFilter(), BasicAuthenticationFilter.class)
                 .addFilterAt(staticKeyAuthenticationFilter, BasicAuthenticationFilter.class)
                 .addFilterAfter(new AuthenticationLoggingFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(c -> c.anyRequest().permitAll());
