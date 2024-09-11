@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -21,19 +22,19 @@ import java.util.Arrays;
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private final UserDetailsService userDetailsService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         UserDetails userDetails = userDetailsService.loadUserByUsername(authentication.getName());
         String username = authentication.getName();
-        String password = String.valueOf(
-                authentication.getCredentials());
-        if (userDetails.getUsername().equals(username) &&
-                userDetails.getPassword().equals(password)) {
+        String password = authentication.getCredentials().toString();
+
+        if (passwordEncoder.matches(password, userDetails.getPassword())) {
             return new UsernamePasswordAuthenticationToken(
                     username,
                     password,
-                    Arrays.asList());
+                    userDetails.getAuthorities());
         } else {
             throw new AuthenticationCredentialsNotFoundException("Error!");
         }
