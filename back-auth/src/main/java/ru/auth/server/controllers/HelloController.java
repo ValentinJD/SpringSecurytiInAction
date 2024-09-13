@@ -1,6 +1,7 @@
 package ru.auth.server.controllers;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.concurrent.DelegatingSecurityContextCallable;
 import org.springframework.security.core.Authentication;
@@ -11,25 +12,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.*;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 public class HelloController {
 
+    @Async
     @GetMapping("/ciao")
-    public String ciao() throws Exception {
-        Callable<String> task = () -> {
-            SecurityContext context = SecurityContextHolder.getContext();
-            return context.getAuthentication().getName();
-        };
-        ExecutorService e = Executors.newCachedThreadPool();
-        try {
-            var contextTask = new DelegatingSecurityContextCallable<>(task);
-
-            return "Ciao, " + e.submit(contextTask).get() + "!";
-        } finally {
-            e.shutdown();
-        }
-// Omitted code
+    public void ciao() throws Exception {
+        log.info("Это новый поток поток с именем: " + Thread.currentThread().getName() +
+                " стратегия управления SecurityContext MODE_INHERITABLETHREADLOCAL");
+        SecurityContext context1 = SecurityContextHolder.getContext();
+        String name1 = context1.getAuthentication().getName();
+        log.info("Мы получаем Authentication в новом потоке context1.getAuthentication().getName(): {}", name1);
     }
 
     @GetMapping("/hello")
@@ -37,36 +32,5 @@ public class HelloController {
         return "Hello, " + a.getName() + "!";
     }
 
-    @GetMapping("/bye")
-    @Async
-    public Future<String> goodbye() {
-        SecurityContext context = SecurityContextHolder.getContext();
-        String username = context.getAuthentication().getName();
-        return new Future<String>() {
-            @Override
-            public boolean cancel(boolean mayInterruptIfRunning) {
-                return false;
-            }
 
-            @Override
-            public boolean isCancelled() {
-                return false;
-            }
-
-            @Override
-            public boolean isDone() {
-                return false;
-            }
-
-            @Override
-            public String get() throws InterruptedException, ExecutionException {
-                return username;
-            }
-
-            @Override
-            public String get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
-                return username;
-            }
-        };
-    }
 }
