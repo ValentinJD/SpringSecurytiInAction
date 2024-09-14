@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.concurrent.DelegatingSecurityContextCallable;
+import org.springframework.security.concurrent.DelegatingSecurityContextExecutorService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,17 +23,17 @@ public class HelloController {
     public String ciao() throws Exception {
         Callable<String> task = () -> {
             log.info("Это новый поток поток с именем: " + Thread.currentThread().getName() +
-                    " стратегия управления SecurityContext MODE_INHERITABLETHREADLOCAL");
+                    " стратегия управления SecurityContext MODE_THREADLOCAL");
             SecurityContext context = SecurityContextHolder.getContext();
             String name = context.getAuthentication().getName();
             log.info("Мы получаем Authentication в новом потоке context1.getAuthentication().getName(): {}", name);
             return name;
         };
         ExecutorService e = Executors.newCachedThreadPool();
+        e = new DelegatingSecurityContextExecutorService(e);
         String name1;
         try {
-            var contextTask = new DelegatingSecurityContextCallable<>(task);
-            name1 = "Ciao, " + e.submit(contextTask).get() + "!";
+            name1 = "Ciao, " + e.submit(task).get() + "!";
         } finally {
             e.shutdown();
         }
