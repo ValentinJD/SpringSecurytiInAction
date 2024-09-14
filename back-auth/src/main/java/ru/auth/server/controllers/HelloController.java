@@ -17,14 +17,26 @@ import java.util.concurrent.*;
 @RestController
 public class HelloController {
 
-    @Async
+
     @GetMapping("/ciao")
-    public void ciao() throws Exception {
-        log.info("Это новый поток поток с именем: " + Thread.currentThread().getName() +
-                " стратегия управления SecurityContext MODE_INHERITABLETHREADLOCAL");
-        SecurityContext context1 = SecurityContextHolder.getContext();
-        String name1 = context1.getAuthentication().getName();
-        log.info("Мы получаем Authentication в новом потоке context1.getAuthentication().getName(): {}", name1);
+    public String ciao() throws Exception {
+        Callable<String> task = () -> {
+            log.info("Это новый поток поток с именем: " + Thread.currentThread().getName() +
+                    " стратегия управления SecurityContext MODE_INHERITABLETHREADLOCAL");
+            SecurityContext context = SecurityContextHolder.getContext();
+            String name = context.getAuthentication().getName();
+            log.info("Мы получаем Authentication в новом потоке context1.getAuthentication().getName(): {}", name);
+            return name;
+        };
+        ExecutorService e = Executors.newCachedThreadPool();
+        String name1;
+        try {
+            var contextTask = new DelegatingSecurityContextCallable<>(task);
+            name1 = "Ciao, " + e.submit(contextTask).get() + "!";
+        } finally {
+            e.shutdown();
+        }
+        return "Hello, " + name1 + "!";
     }
 
     @GetMapping("/hello")

@@ -32,7 +32,7 @@ public class ProjectConfig {
         http.csrf(AbstractHttpConfigurer::disable);
         http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
         http.httpBasic(Customizer.withDefaults());
-        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
+        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_THREADLOCAL);
         SecurityContextRepository securityContextRepository = new RequestAttributeSecurityContextRepository() ;
         SecurityContextHolderFilter securityContextHolderFilter =
                 new SecurityContextHolderFilter(securityContextRepository);
