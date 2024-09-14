@@ -25,19 +25,16 @@ public class ProjectConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authenticationProvider(authenticationProvider);
+        http.httpBasic(c -> {
+            c.realmName("OTHER");
+            c.authenticationEntryPoint(new CustomEntryPoint());
+        });
+        // H2 Config
         http.authorizeHttpRequests(
                 c -> c.requestMatchers("/console/**").permitAll()
                         .anyRequest().authenticated()
         );
-        http.csrf(AbstractHttpConfigurer::disable);
         http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
-        http.httpBasic(Customizer.withDefaults());
-        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_THREADLOCAL);
-        SecurityContextRepository securityContextRepository = new RequestAttributeSecurityContextRepository() ;
-        SecurityContextHolderFilter securityContextHolderFilter =
-                new SecurityContextHolderFilter(securityContextRepository);
-        securityContextHolderFilter.setSecurityContextHolderStrategy(SecurityContextHolder.getContextHolderStrategy());
-        http.addFilter(securityContextHolderFilter);
         return http.build();
     }
 
