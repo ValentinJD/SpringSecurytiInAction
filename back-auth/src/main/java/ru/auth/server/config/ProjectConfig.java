@@ -25,10 +25,7 @@ public class ProjectConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authenticationProvider(authenticationProvider);
-        http.httpBasic(c -> {
-            c.realmName("OTHER");
-            c.authenticationEntryPoint(new CustomEntryPoint());
-        });
+        http.formLogin(Customizer.withDefaults());
         // H2 Config
         http.authorizeHttpRequests(
                 c -> c.requestMatchers("/console/**").permitAll()
