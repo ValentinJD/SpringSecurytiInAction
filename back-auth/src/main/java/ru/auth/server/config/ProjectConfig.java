@@ -25,13 +25,15 @@ public class ProjectConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authenticationProvider(authenticationProvider);
+        http.httpBasic(Customizer.withDefaults());
         http.authorizeHttpRequests(
                 c -> c.requestMatchers("/console/**").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest()
+                        .hasAuthority("write")
         );
         http.csrf(AbstractHttpConfigurer::disable);
         http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
-        http.httpBasic(Customizer.withDefaults());
+
         SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_THREADLOCAL);
         SecurityContextRepository securityContextRepository = new RequestAttributeSecurityContextRepository() ;
         SecurityContextHolderFilter securityContextHolderFilter =
