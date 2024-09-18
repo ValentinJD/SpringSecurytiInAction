@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 public class UserManagementConfig {
 
     @Bean
-    public UserDetailsService userDetailsService(DataSource dataSource) {
+    public UserDetailsService userDetailsManager(DataSource dataSource) {
         return new JdbcUserDetailsManager(dataSource);
     }
 

@@ -16,6 +16,11 @@ public class HelloController {
         return "home.html";
     }
 
+    @GetMapping("/error")
+    public String error() {
+        return "error.html";
+    }
+
     @GetMapping("/hello")
     public String hello(Authentication a) {
         return "Hello, " + a.getName() + "!";
