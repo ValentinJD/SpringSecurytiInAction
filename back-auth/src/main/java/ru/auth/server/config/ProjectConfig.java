@@ -29,7 +29,7 @@ public class ProjectConfig {
         http.authorizeHttpRequests(
                 c -> c.requestMatchers("/console/**").permitAll()
                         .anyRequest()
-                        .hasAuthority("write")
+                        .hasAnyAuthority("write", "read")
         );
         http.csrf(AbstractHttpConfigurer::disable);
         http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
