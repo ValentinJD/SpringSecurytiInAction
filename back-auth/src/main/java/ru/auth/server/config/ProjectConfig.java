@@ -33,7 +33,7 @@ public class ProjectConfig {
         http.authorizeHttpRequests(
                 c -> c.requestMatchers("/console/**").permitAll()
                         .anyRequest()
-                        .access(new WebExpressionAuthorizationManager(expression)));
+                        .hasRole("ADMIN"));
 
         http.csrf(AbstractHttpConfigurer::disable);
         http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
