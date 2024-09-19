@@ -3,6 +3,7 @@ package ru.auth.server.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -28,14 +29,19 @@ public class ProjectConfig {
         http.authenticationProvider(authenticationProvider);
         http.httpBasic(Customizer.withDefaults());
 
-        String expression = "hasAuthority('read') and !hasAuthority('delete')";
-
         http.authorizeHttpRequests(
                 c -> c.requestMatchers("/console/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/a")
+                        .authenticated()
+                        .requestMatchers(HttpMethod.POST, "/a")
+                        .permitAll()
                         .anyRequest()
-                        .hasRole("ADMIN"));
+                        .denyAll());
 
         http.csrf(AbstractHttpConfigurer::disable);
+        // Disables CSRF to enable a
+        //call to the /a path using the
+        //HTTP POST method
         http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
 
         SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_THREADLOCAL);
