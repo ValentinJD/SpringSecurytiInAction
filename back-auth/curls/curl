@@ -26,3 +26,5 @@ curl -u jane:12345 http://localhost:8080/hello
 curl -v -XPOST http://localhost:8080/a
 curl -v -XGET http://localhost:8080/a
 curl -u john:12345 -XGET http://localhost:8080/a
+curl http://localhost:8080/product/1234a
+curl http://localhost:8080/product/12345

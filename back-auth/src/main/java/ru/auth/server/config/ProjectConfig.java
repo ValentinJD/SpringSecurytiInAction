@@ -31,9 +31,7 @@ public class ProjectConfig {
 
         http.authorizeHttpRequests(
                 c -> c.requestMatchers("/console/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/a")
-                        .authenticated()
-                        .requestMatchers(HttpMethod.POST, "/a")
+                        .requestMatchers("/product/{code:^[0-9]*$}")
                         .permitAll()
                         .anyRequest()
                         .denyAll());
