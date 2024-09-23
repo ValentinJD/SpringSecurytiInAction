@@ -13,9 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloController {
 
-    @GetMapping("/product/{code}")
-    public String productCode(@PathVariable String code) {
-        return code;
+    @GetMapping("/hello")
+    public String getHello() {
+        return "Get Hello!";
+    }
+
+    @PostMapping("/hello")
+    public String postHello() {
+        return "Post Hello!";
     }
 
 }

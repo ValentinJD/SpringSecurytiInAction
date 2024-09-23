@@ -16,6 +16,8 @@ import org.springframework.security.web.access.expression.WebExpressionAuthoriza
 import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextHolderFilter;
 import org.springframework.security.web.context.SecurityContextRepository;
+import org.springframework.security.web.csrf.CsrfFilter;
+import ru.auth.server.config.filters.CsrfTokenLogger;
 
 @EnableAsync
 @RequiredArgsConstructor
@@ -29,14 +31,19 @@ public class ProjectConfig {
         http.authenticationProvider(authenticationProvider);
         http.httpBasic(Customizer.withDefaults());
 
-        http.authorizeHttpRequests(
-                c -> c.requestMatchers("/console/**").permitAll()
-                        .requestMatchers("/product/{code:^[0-9]*$}")
-                        .permitAll()
-                        .anyRequest()
-                        .denyAll());
+        http.addFilterAfter(new CsrfTokenLogger(), CsrfFilter.class)
+                .authorizeHttpRequests(
+                        c -> c.anyRequest().permitAll()
+                );
 
-        http.csrf(AbstractHttpConfigurer::disable);
+//        http.authorizeHttpRequests(
+//                c -> c.requestMatchers("/console/**").permitAll()
+//                        .requestMatchers("/product/{code:^[0-9]*$}")
+//                        .permitAll()
+//                        .anyRequest()
+//                        .denyAll());
+
+//        http.csrf(AbstractHttpConfigurer::disable);
         // Disables CSRF to enable a
         //call to the /a path using the
         //HTTP POST method

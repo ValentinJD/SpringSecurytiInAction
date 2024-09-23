@@ -28,3 +28,15 @@ curl -v -XGET http://localhost:8080/a
 curl -u john:12345 -XGET http://localhost:8080/a
 curl http://localhost:8080/product/1234a
 curl http://localhost:8080/product/12345
+
+curl -v http://localhost:8080/hello
+curl -XPOST http://localhost:8080/hello
+
+curl -X POST  http://localhost:8080/hello \
+ -H 'Cookie: JSESSIONID=D86FB87EA2A5ACAE9C16D944577B9959' \
+ -H 'X-CSRF-TOKEN: YEn2H1i2srpEbpg_wydyyVkKNpfncMvcqjegCxyjS968Y5UuUHCSKGuBi4JpVvkK8wpGrz89G_XTEf3xzw-RaHiSKOaEUfYe'
+
+curl --location --request POST 'http://127.0.0.1:8080/hello' \
+--header 'X-CSRF-TOKEN: dWn1AfjlJ8gBEml-o5zoa6_8NGGPVT9KpX6IctvPBwg9ILt3TFmQYM_SEKssJVtKxrHcU5jOGQO4MVlnwByxE-j2YWoLFt0W' \
+--header 'Authorization: 54321' \
+--header 'Cookie: JSESSIONID=1B7D345115B71CB2D4C030F90C2CB7C1'
