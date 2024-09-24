@@ -37,6 +37,6 @@ curl -X POST  http://localhost:8080/hello \
  -H 'X-CSRF-TOKEN: YEn2H1i2srpEbpg_wydyyVkKNpfncMvcqjegCxyjS968Y5UuUHCSKGuBi4JpVvkK8wpGrz89G_XTEf3xzw-RaHiSKOaEUfYe'
 
 curl --location --request POST 'http://127.0.0.1:8080/hello' \
---header 'X-CSRF-TOKEN: dWn1AfjlJ8gBEml-o5zoa6_8NGGPVT9KpX6IctvPBwg9ILt3TFmQYM_SEKssJVtKxrHcU5jOGQO4MVlnwByxE-j2YWoLFt0W' \
+--header 'X-CSRF-TOKEN: ebQWCGULesfdNFeQdAUBEuyyxcfUu6pj83JZMCDqCGsSX7wzS4xybFQyQ_PwVzOlRSg1Jd2F6P6wiJtOlkM8BUXdP1ohPYxS' \
 --header 'Authorization: 54321' \
 --header 'Cookie: JSESSIONID=1B7D345115B71CB2D4C030F90C2CB7C1'

@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloController {
 
-    @GetMapping("/hello")
+    @PostMapping("/hello")
     public String getHello() {
-        return "Get Hello!";
+        return "Post Hello with CSRF!";
     }
 
-    @PostMapping("/hello")
+    @PostMapping("/ciao")
     public String postHello() {
-        return "Post Hello!";
+        return "Post ciao! without CSRF";
     }
 
 }
