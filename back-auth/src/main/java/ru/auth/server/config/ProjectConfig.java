@@ -3,6 +3,7 @@ package ru.auth.server.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -13,6 +14,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextHolderFilter;
 import org.springframework.security.web.context.SecurityContextRepository;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.util.matcher.RegexRequestMatcher;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @EnableAsync
 @RequiredArgsConstructor
@@ -24,10 +28,18 @@ public class ProjectConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authenticationProvider(authenticationProvider);
+
+//        Or you can similarly use a regex matcher:
+
         http.httpBasic(Customizer.withDefaults());
         http.csrf(c -> {
-            c.ignoringRequestMatchers("/console/**")
-                    .ignoringRequestMatchers("/ciao");
+            HandlerMappingIntrospector i = new HandlerMappingIntrospector();
+            MvcRequestMatcher r = new MvcRequestMatcher(i, "/ciao");
+            c.ignoringRequestMatchers(r);
+            String pattern = "\\/console\\/\\w+.\\w+\\D\\D+\\w+";
+            String httpMethod = HttpMethod.POST.name();
+            RegexRequestMatcher r2 = new RegexRequestMatcher(pattern, httpMethod);
+            c.ignoringRequestMatchers(r2);
         });
         http.formLogin(Customizer.withDefaults());
         http.authorizeHttpRequests(
