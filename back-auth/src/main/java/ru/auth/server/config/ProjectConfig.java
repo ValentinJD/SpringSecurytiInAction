@@ -18,8 +18,12 @@ import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import ru.auth.server.repository.CustomCsrfTokenRepository;
+
+import java.util.List;
 
 @EnableAsync
 @RequiredArgsConstructor
@@ -32,6 +36,19 @@ public class ProjectConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authenticationProvider(authenticationProvider);
+
+        http.cors(c -> {
+            CorsConfigurationSource source = request -> {
+                CorsConfiguration config = new CorsConfiguration();
+                config.setAllowedOrigins(
+                        List.of("example.com", "example.org"));
+                config.setAllowedMethods(
+                        List.of("GET", "POST", "PUT", "DELETE"));
+                config.setAllowedHeaders(List.of("*"));
+                return config;
+            };
+            c.configurationSource(source);
+        });
 
         http.csrf(AbstractHttpConfigurer::disable);
 
