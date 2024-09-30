@@ -7,20 +7,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.auth.server.service.NameService;
 
 @Slf4j
 @RequiredArgsConstructor
 @RestController
 public class HelloController {
 
-    @PostMapping("/hello")
+    private final NameService nameService;
+
+    @GetMapping("/hello")
     public String getHello() {
-        return "Post Hello with CSRF!";
+        return "Hello, " + nameService.getName();
     }
 
-    @PostMapping("/ciao")
-    public String postHello() {
-        return "Post ciao! without CSRF";
-    }
 
 }

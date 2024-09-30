@@ -7,6 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
@@ -25,6 +26,7 @@ import ru.auth.server.repository.CustomCsrfTokenRepository;
 
 import java.util.List;
 
+@EnableMethodSecurity
 @EnableAsync
 @RequiredArgsConstructor
 @Configuration
@@ -36,22 +38,9 @@ public class ProjectConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authenticationProvider(authenticationProvider);
-
-        http.cors(c -> {
-            CorsConfigurationSource source = request -> {
-                CorsConfiguration config = new CorsConfiguration();
-                config.setAllowedOrigins(
-                        List.of("example.com", "example.org"));
-                config.setAllowedMethods(
-                        List.of("GET", "POST", "PUT", "DELETE"));
-                config.setAllowedHeaders(List.of("*"));
-                return config;
-            };
-            c.configurationSource(source);
-        });
+        http.httpBasic(Customizer.withDefaults());
 
         http.csrf(AbstractHttpConfigurer::disable);
-
         http.authorizeHttpRequests(
                 c -> c.requestMatchers("/console/**").permitAll()
                         .anyRequest().permitAll());

@@ -13,7 +13,8 @@ curl -k -u john:12345 https://localhost:8081/hello
 curl -u john:12345 http://localhost:8080/hello
 Hello!
 
-curl -u john:12345 http://localhost:8081/hello
+curl -u jane:1234 http://localhost:8080/hello
+curl -u mary:12345 http://localhost:8080/hello
 
 http://127.0.0.1:8080/console
 
