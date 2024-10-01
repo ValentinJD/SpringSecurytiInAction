@@ -15,6 +15,7 @@ Hello!
 
 curl -u jane:1234 http://localhost:8080/hello
 curl -u mary:12345 http://localhost:8080/hello
+curl -u mary:12345 http://localhost:8080/secret/names/mary
 
 http://127.0.0.1:8080/console
 
