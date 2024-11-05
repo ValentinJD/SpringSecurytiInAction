@@ -1,10 +1,10 @@
 INSERT INTO authorities (username, authority)
-VALUES ('jane', 'write');
+VALUES ('natalie', 'ROLE_ADMIN');
 INSERT INTO authorities (username, authority)
-VALUES ('mary', 'read');
+VALUES ('emma', 'ROLE_MANAGER');
 
 INSERT INTO users (username, password, enabled)
-VALUES ('mary', '12345', '1');
+VALUES ('natalie', '12345', '1');
 INSERT INTO users (username, password, enabled)
-VALUES ('jane', '1234', '1');
+VALUES ('emma', '1234', '1');
 

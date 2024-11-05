@@ -44,3 +44,7 @@ curl --location --request POST 'http://127.0.0.1:8080/hello' \
 --header 'X-CSRF-TOKEN: ebQWCGULesfdNFeQdAUBEuyyxcfUu6pj83JZMCDqCGsSX7wzS4xybFQyQ_PwVzOlRSg1Jd2F6P6wiJtOlkM8BUXdP1ohPYxS' \
 --header 'Authorization: 54321' \
 --header 'Cookie: JSESSIONID=1B7D345115B71CB2D4C030F90C2CB7C1'
+
+curl -u natalie:12345 http://localhost:8080/documents/abc123
+curl -u natalie:12345 http://localhost:8080/documents/asd555
+curl -u emma:1234 http://localhost:8080/documents/asd555

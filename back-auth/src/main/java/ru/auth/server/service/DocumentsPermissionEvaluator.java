@@ -1,0 +1,43 @@
+package ru.auth.server.service;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.PermissionEvaluator;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
+import ru.auth.server.entity.Document;
+import ru.auth.server.repository.DocumentRepository;
+
+import java.io.Serializable;
+
+@Service
+@RequiredArgsConstructor
+public class DocumentsPermissionEvaluator implements PermissionEvaluator {
+
+    private final DocumentRepository documentRepository;
+
+    @Override
+    public boolean hasPermission(Authentication authentication, Object target, Object permission) {
+        Document document = (Document) target;
+        String p = (String) permission;
+        boolean admin = authentication.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals(p));
+        return admin || document.getOwner().equals(authentication.getName());
+    }
+
+    @Override
+    public boolean hasPermission(Authentication authentication,
+                                 Serializable targetId,
+                                 String targetType,
+                                 Object permission) {
+        String code = targetId.toString();
+        Document document = documentRepository.findDocument(code);
+        String p = (String) permission;
+        boolean admin =
+                authentication.getAuthorities()
+                        .stream()
+                        .anyMatch(a -> a.getAuthority().equals(p));
+        return admin ||
+                document.getOwner().equals(
+                        authentication.getName());
+    }
+}

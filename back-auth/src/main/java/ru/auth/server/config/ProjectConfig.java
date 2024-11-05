@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -12,6 +14,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import ru.auth.server.repository.CustomCsrfTokenRepository;
+import ru.auth.server.service.DocumentsPermissionEvaluator;
 
 
 @EnableMethodSecurity
@@ -22,6 +25,14 @@ public class ProjectConfig {
 
     private final AuthenticationProvider authenticationProvider;
     private final CustomCsrfTokenRepository customTokenRepository;
+    private final DocumentsPermissionEvaluator evaluator;
+
+    @Bean
+    protected MethodSecurityExpressionHandler createExpressionHandler() {
+        var expressionHandler = new DefaultMethodSecurityExpressionHandler();
+        expressionHandler.setPermissionEvaluator(evaluator);
+        return expressionHandler;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
