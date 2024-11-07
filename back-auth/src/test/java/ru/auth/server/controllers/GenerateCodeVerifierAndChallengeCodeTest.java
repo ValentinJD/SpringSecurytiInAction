@@ -7,9 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class ProductControllerTest {
+class GenerateCodeVerifierAndChallengeCodeTest {
 
     @Test
     void test() {
