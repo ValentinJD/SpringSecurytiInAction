@@ -36,14 +36,14 @@ public class ProjectConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authenticationProvider(authenticationProvider);
+//        http.authenticationProvider(authenticationProvider);
         http.httpBasic(Customizer.withDefaults());
 
-        http.csrf(AbstractHttpConfigurer::disable);
-        http.authorizeHttpRequests(
-                c -> c.requestMatchers("/console/**").permitAll()
-                        .anyRequest().permitAll());
-        http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
+//        http.csrf(AbstractHttpConfigurer::disable);
+//        http.authorizeHttpRequests(
+//                c -> c.requestMatchers("/console/**").permitAll()
+//                        .anyRequest().permitAll());
+//        http.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
 
         return http.build();
     }
