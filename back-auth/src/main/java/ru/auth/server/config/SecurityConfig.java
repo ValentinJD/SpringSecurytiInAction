@@ -80,7 +80,7 @@ public class SecurityConfig {
                         .authorizationGrantType(
                                 AuthorizationGrantType.REFRESH_TOKEN)
                         .redirectUri("https://moysait1984.narod.ru")
-                        .scope(OidcScopes.OPENID)
+                        .scope("CUSTOM")
                         .build();
 
         return new InMemoryRegisteredClientRepository(registeredClient);
