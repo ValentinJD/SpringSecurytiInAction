@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import ru.auth.server.config.jwt.JwtAuthenticationConverter;
 import ru.auth.server.repository.CustomCsrfTokenRepository;
 import ru.auth.server.service.DocumentsPermissionEvaluator;
 
@@ -26,6 +27,7 @@ public class ProjectConfig {
     private final AuthenticationProvider authenticationProvider;
     private final CustomCsrfTokenRepository customTokenRepository;
     private final DocumentsPermissionEvaluator evaluator;
+    private final JwtAuthenticationConverter converter;
 
     @Bean
     protected MethodSecurityExpressionHandler createExpressionHandler() {

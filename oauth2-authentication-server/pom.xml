@@ -10,10 +10,8 @@
     </parent>
 
     <groupId>ru.back.auth</groupId>
-    <artifactId>backend-auth</artifactId>
+    <artifactId>oauth2-authentication-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Spring Security</name>
-    <description>Spring Security In Action Book</description>
 
     <properties>
         <lombok.version>1.18.22</lombok.version>
