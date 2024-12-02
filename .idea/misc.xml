@@ -7,6 +7,8 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/back-auth/pom.xml" />
         <option value="$PROJECT_DIR$/auth2-autentification-server/pom.xml" />
+        <option value="$PROJECT_DIR$/oauth2-recource-server/pom.xml" />
+        <option value="$PROJECT_DIR$/oauth2-resource-server/pom.xml" />
       </list>
     </option>
   </component>

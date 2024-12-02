@@ -1,8 +1,6 @@
 package ru.auth.server.config;
 
 
-
-
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
@@ -71,31 +69,52 @@ public class SecurityConfig {
 
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
+//        RegisteredClient registeredClient =
+//                RegisteredClient
+//                        .withId(UUID.randomUUID().toString())
+//                        .clientId("client")
+//                        .clientSecret("secret")
+//                        .clientSettings(ClientSettings.builder()
+//                                .requireProofKey(false)
+//                                .build())
+//                        .clientAuthenticationMethod(
+//                                ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+//                        .authorizationGrantType(
+//                                AuthorizationGrantType.AUTHORIZATION_CODE)
+//                        .authorizationGrantType(
+//                                AuthorizationGrantType.CLIENT_CREDENTIALS)
+//                        .authorizationGrantType(
+//                                AuthorizationGrantType.REFRESH_TOKEN)
+//                        .tokenSettings(TokenSettings.builder()
+//                                .accessTokenFormat(OAuth2TokenFormat.REFERENCE)
+//                                .accessTokenTimeToLive(Duration.ofHours(12))
+//                                .build())
+//                        .redirectUri("https://www.manning.com/authorized")
+//                        .scope(OidcScopes.OPENID)
+//                        .build();
+
         RegisteredClient registeredClient =
-                RegisteredClient
-                        .withId(UUID.randomUUID().toString())
+                RegisteredClient.withId(UUID.randomUUID().toString())
                         .clientId("client")
                         .clientSecret("secret")
-                        .clientSettings(ClientSettings.builder()
-                                .requireProofKey(false)
-                                .build())
-                        .clientAuthenticationMethod(
-                                ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                        .authorizationGrantType(
-                                AuthorizationGrantType.AUTHORIZATION_CODE)
-                        .authorizationGrantType(
-                                AuthorizationGrantType.CLIENT_CREDENTIALS)
-                        .authorizationGrantType(
-                                AuthorizationGrantType.REFRESH_TOKEN)
+                        .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                        .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
                         .tokenSettings(TokenSettings.builder()
                                 .accessTokenFormat(OAuth2TokenFormat.REFERENCE)
                                 .accessTokenTimeToLive(Duration.ofHours(12))
                                 .build())
-                        .redirectUri("https://www.manning.com/authorized")
-                        .scope(OidcScopes.OPENID)
+                        .scope("CUSTOM")
                         .build();
 
-        return new InMemoryRegisteredClientRepository(registeredClient);
+        RegisteredClient resourceServer =
+                RegisteredClient.withId(UUID.randomUUID().toString())
+                        .clientId("resource_server")
+                        .clientSecret("resource_server_secret")
+                        .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                        .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                        .build();
+
+        return new InMemoryRegisteredClientRepository(registeredClient, resourceServer);
     }
 
     @Bean
@@ -115,7 +134,8 @@ public class SecurityConfig {
         JWKSet jwkSet = new JWKSet(rsaKey);
         return new ImmutableJWKSet<>(jwkSet);
     }
-// настраиваем дефолтные пути для работы с сервером аутентификации
+
+    // настраиваем дефолтные пути для работы с сервером аутентификации
     @Bean
     public AuthorizationServerSettings authorizationServerSettings() {
         return AuthorizationServerSettings.builder().build();

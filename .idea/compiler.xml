@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+    <excludeFromCompile>
+      <directory url="file://$PROJECT_DIR$/oauth2-recource-server/src/main/resources/archetype-resources" includeSubdirectories="true" />
+    </excludeFromCompile>
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
@@ -22,6 +25,7 @@
     <bytecodeTargetLevel>
       <module name="auth2-autentification-server" target="17" />
       <module name="backend-auth" target="17" />
+      <module name="oauth2-recource-server" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -29,6 +33,7 @@
       <module name="auth2-autentification-server" options="-parameters" />
       <module name="backend-auth" options="-parameters" />
       <module name="oauth2-oauthentification-server" options="-parameters" />
+      <module name="oauth2-recource-server" options="-parameters" />
       <module name="oauth2-resource-server" options="-parameters" />
     </option>
   </component>
