@@ -1,12 +1,14 @@
 package ru.client.server;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class HomeController {
     @GetMapping("/")
-    public String home() {
-        return "index.html";
+    public Resource home() {
+        return new ClassPathResource("templates/index.html");
     }
 }
