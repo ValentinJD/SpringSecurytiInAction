@@ -93,19 +93,18 @@ public class SecurityConfig {
 //                        .scope(OidcScopes.OPENID)
 //                        .build();
 
-        RegisteredClient registeredClient =
-                RegisteredClient.withId(UUID.randomUUID().toString())
-                        .clientId("client")
-                        .clientSecret("secret")
-                        .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                        .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-//                        .tokenSettings(TokenSettings.builder()
-//                                .accessTokenFormat(OAuth2TokenFormat.REFERENCE)
-//                                .accessTokenTimeToLive(Duration.ofHours(12))
-//                                .build())
-                        .redirectUri("http://localhost:7070/login/oauth2/code/my_authorization_server")
-                        .scope(OidcScopes.OPENID)
-                        .build();
+
+            var registeredClient = RegisteredClient
+                    .withId(UUID.randomUUID().toString())
+                    .clientId("client")
+                    .clientSecret("secret")
+                    .clientAuthenticationMethod(
+                            ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                    .authorizationGrantType(
+                            AuthorizationGrantType.CLIENT_CREDENTIALS)
+                    .scope(OidcScopes.OPENID)
+                    .build();
+
 
         RegisteredClient resourceServer =
                 RegisteredClient.withId(UUID.randomUUID().toString())

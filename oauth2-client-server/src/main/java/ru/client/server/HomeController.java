@@ -1,25 +1,23 @@
 package ru.client.server;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
 public class HomeController {
-//    @GetMapping("/")
-//    public Resource home() {
-//        return new ClassPathResource("templates/index.html");
-//    }
+    private final OAuth2AuthorizedClientManager clientManager;
 
-    @GetMapping("/")
-    public Resource home(OAuth2AuthenticationToken authentication) {
-        OAuth2User principal = authentication.getPrincipal();
-// do something with the authentication
-        return new ClassPathResource("templates/index.html");
+    @GetMapping("/token")
+    public String token() {
+        OAuth2AuthorizeRequest request = OAuth2AuthorizeRequest
+                .withClientRegistrationId("1")
+                .principal("client")
+                .build();
+        var client = clientManager.authorize(request);
+        return client.getAccessToken().getTokenValue();
     }
 }
