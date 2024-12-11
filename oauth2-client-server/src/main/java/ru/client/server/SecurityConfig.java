@@ -17,7 +17,6 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @ComponentScan
 @Configuration
@@ -30,9 +29,10 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.oauth2Login(Customizer.withDefaults());
+//        http.oauth2Login(Customizer.withDefaults());
+        http.oauth2Client(Customizer.withDefaults());
         http.authorizeHttpRequests(c -> c.anyRequest()
-                .authenticated());
+                .permitAll());
         return http.build();
     }
 
