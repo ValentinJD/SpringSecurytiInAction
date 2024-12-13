@@ -17,6 +17,7 @@
         <module>oauth2-authentication-server</module>
         <module>oauth2-resource-server</module>
         <module>oauth2-client-server</module>
+        <module>reactive-app</module>
     </modules>
 
 </project>
