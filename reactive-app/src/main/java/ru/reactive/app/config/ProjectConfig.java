@@ -26,9 +26,13 @@ public class ProjectConfig {
     public ReactiveUserDetailsService userDetailsService() {
         var u = User.withUsername("john")
                 .password("12345")
-                .authorities("read", "ROLE_ADMIN")
+                .roles("ADMIN")
                 .build();
-        var uds = new MapReactiveUserDetailsService(u);
+        var u2 = User.withUsername("bill")
+                .password("12345")
+                .roles("REGULAR_USER")
+                .build();
+        var uds = new MapReactiveUserDetailsService(u, u2);
         return uds;
     }
 
