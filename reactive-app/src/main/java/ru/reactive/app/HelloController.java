@@ -12,12 +12,11 @@ public class HelloController {
     @GetMapping("/hello")
     @PreAuthorize("hasRole('ADMIN')")
     public String hello(Authentication auth) {
-        String message = "auth.getName()";
-        return message;
+        return "Hello, " + auth.getName() + "!";
     }
 
     @GetMapping("/ciao")
     public String ciao() {
-        return ("Ciao!");
+        return "Hello!";
     }
 }
