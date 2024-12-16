@@ -4,20 +4,20 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Mono;
+
 
 @RestController
 public class HelloController {
 
     @GetMapping("/hello")
     @PreAuthorize("hasRole('ADMIN')")
-    public Mono<String> hello(Mono<Authentication> auth) {
-        Mono<String> message = auth.map(a -> "Hello " + a.getName());
+    public String hello(Authentication auth) {
+        String message = "auth.getName()";
         return message;
     }
 
     @GetMapping("/ciao")
-    public Mono<String> ciao() {
-        return Mono.just("Ciao!");
+    public String ciao() {
+        return ("Ciao!");
     }
 }
