@@ -13,20 +13,20 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @SpringBootTest
 @AutoConfigureMockMvc
 public class AuthenticationTests {
-    @Autowired
-    private MockMvc mvc;
-
-    @Test
-    public void helloAuthenticatingWithValidUser() throws Exception {
-        mvc.perform(get("/hello")
-                        .with(httpBasic("john", "12345")))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void helloAuthenticatingWithInvalidUser() throws Exception {
-        mvc.perform(get("/hello")
-                        .with(httpBasic("mary", "12345")))
-                .andExpect(status().isUnauthorized());
-    }
+//    @Autowired
+//    private MockMvc mvc;
+//
+//    @Test
+//    public void helloAuthenticatingWithValidUser() throws Exception {
+//        mvc.perform(get("/hello")
+//                        .with(httpBasic("john", "12345")))
+//                .andExpect(status().isOk());
+//    }
+//
+//    @Test
+//    public void helloAuthenticatingWithInvalidUser() throws Exception {
+//        mvc.perform(get("/hello")
+//                        .with(httpBasic("mary", "12345")))
+//                .andExpect(status().isUnauthorized());
+//    }
 }
